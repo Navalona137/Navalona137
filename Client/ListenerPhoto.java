@@ -31,7 +31,18 @@ public class ListenerPhoto implements MouseListener{
 
         if(scr.getText() == "Afficher"){
             System.out.println("affiche photo");
-            if(listP.entree.getText().equals("Photo numero : 1")){ 
+            for(int i=0; i<listP.totalPhoto; i++){
+                if(listP.entree.getText().equals("Photo numero : " + i)){ 
+                    try{
+                        client.send("photo"+(i));
+                        Photo photo = new Photo(client, fen.msg);
+                    }catch(Exception ex){
+                        System.out.println(ex.getMessage());
+                    }
+                }
+            }
+
+            /*if(listP.entree.getText().equals("Photo numero : 1")){ 
                 try{
                     client.send("photo0");
                     Photo photo = new Photo(client, fen.msg);
@@ -78,7 +89,7 @@ public class ListenerPhoto implements MouseListener{
                 }catch(Exception ex){
                     System.out.println(ex.getMessage());
                 }
-            }
+            }*/
         }
     } 
 

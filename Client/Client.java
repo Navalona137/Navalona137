@@ -2,7 +2,9 @@ package client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.BufferedInputStream;
 import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
@@ -64,9 +66,16 @@ public class Client implements Runnable{
 
     private void receive() throws IOException {
         answer = new String();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        answer = reader.readLine(); 
-        fen.receive(answer);
+        if(Fenetre.CMD.equals("LIST")){
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            answer = reader.readLine(); 
+            fen.receive(answer);
+        }else{
+            //InputStream reader = new InputStream();
+            Fenetre.MSGE = socket.getInputStream();
+            //System.out.println("maka byte marina");
+        }
+        
     }
 
     public void send(String message) {

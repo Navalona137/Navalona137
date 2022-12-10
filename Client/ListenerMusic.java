@@ -34,12 +34,34 @@ public class ListenerMusic implements MouseListener{
     
         if(scr.getText() == "play"){
             System.out.println("play music");
-            if(listM.entree.getText().equals("Chanson numero : 1")){ 
+            for(int i=0; i<listM.totalAudio; i++){
+                if(listM.entree.getText().equals("Chanson numero : " + i)){ 
+                    System.out.println("hiraaa");
+                    try{
+                        Fenetre.CMD = "PLAY";
+                        client.send("music"+i);
+
+                        System.out.println("vita send");
+                        if(Fenetre.MSGE != null){
+                            System.out.println("tsy null MSGE");
+                            fonct.play(Fenetre.MSGE);
+                        }
+                            
+                        else    
+                            System.out.println("null MSGE");
+                    }catch(Exception ex){
+                        System.out.println(ex.getMessage());
+                        System.out.println("ex.getMessage()");
+                    }
+                }
+            }
+
+
+            /*if(listM.entree.getText().equals("Chanson numero : 1")){ 
                 try{
                     client.send("music0");
                     System.out.println(fen.msg);
                     fonct.play(fen.msg);
-                    //listM.play(fen.msg);
                 }catch(Exception ex){
                     System.out.println(ex.getMessage());
                 }
@@ -49,7 +71,6 @@ public class ListenerMusic implements MouseListener{
                     client.send("music1");
                     System.out.println(fen.msg);
                     fonct.play(fen.msg);
-                    //listM.play(fen.msg);
                 }catch(Exception ex){
                     System.out.println(ex.getMessage());
                 }
@@ -59,7 +80,6 @@ public class ListenerMusic implements MouseListener{
                     client.send("music2");
                     System.out.println(fen.msg);
                     fonct.play(fen.msg);
-                    //listM.play(fen.msg);
                 }catch(Exception ex){
                     System.out.println(ex.getMessage());
                 }
@@ -73,7 +93,7 @@ public class ListenerMusic implements MouseListener{
                 }catch(Exception ex){
                     System.out.println(ex.getMessage());
                 }
-            }
+            }*/
             System.out.println("tsy tafiiditra");
         }
 

@@ -26,6 +26,7 @@ public class Listener implements MouseListener{
 
         if(scr.getText() == "Music"){
             try{
+                Fenetre.CMD = "LIST";
                 client.send("music");
                 ListMusic music = new ListMusic(client, fen, fen.msg);
             }catch(Exception ex){

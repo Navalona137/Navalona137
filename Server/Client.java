@@ -4,12 +4,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.io.FileInputStream;
 import java.io.*;
+import java.lang.reflect.Array;
+import java.lang.ClassNotFoundException;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.*;
 
 public class Client implements Runnable{
 
@@ -36,6 +43,8 @@ public class Client implements Runnable{
     private String video = new String();
 
     private String nom = new String();
+
+    private byte[] byteAudio;
 
     public Client(Socket socket, int id)  {
         this.socket = socket;
@@ -122,106 +131,31 @@ public class Client implements Runnable{
             send(video);
         }
 
-        if(answer.equalsIgnoreCase("music0")){
-            nom = new String();
-            try{
-                nom = listeAudio[0].getPath();
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }                    
-            System.out.println(nom);
-            send(nom);
-        }
-        if(answer.equalsIgnoreCase("music1")){
-            nom = new String();
-            try{
-                nom = listeAudio[1].getPath();
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }                    
-            System.out.println(nom);
-            send(nom);
-        }
-        if(answer.equalsIgnoreCase("music2")){
-            nom = new String();
-            try{
-                nom = listeAudio[2].getPath();
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }                    
-            System.out.println(nom);
-            send(nom);
-        }
-        if(answer.equalsIgnoreCase("music3")){
-            nom = new String();
-            try{
-                nom = listeAudio[3].getPath();
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }                    
-            System.out.println(nom);
-            send(nom);
+        for(int i=0; i<longueurAudio; i++){
+            if(answer.equalsIgnoreCase("music"+i)){
+                nom = new String();
+                try{
+                    nom = listeAudio[i-1].getAbsolutePath();
+                    byteAudio = loadAudio(listeAudio[i-1]);
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }                    
+                System.out.println(nom);
+                sendByte(byteAudio);
+            }
         }
 
-        if(answer.equalsIgnoreCase("photo0")){
-            nom = new String();
-            try{
-                nom = listePhoto[0].getPath();
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }                    
-            System.out.println(nom);
-            send(nom);
-        }
-        if(answer.equalsIgnoreCase("photo1")){
-            nom = new String();
-            try{
-                nom = listePhoto[1].getPath();
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }                    
-            System.out.println(nom);
-            send(nom);
-        }
-        if(answer.equalsIgnoreCase("photo2")){
-            nom = new String();
-            try{
-                nom = listePhoto[2].getPath();
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }                    
-            System.out.println(nom);
-            send(nom);
-        }
-        if(answer.equalsIgnoreCase("photo3")){
-            nom = new String();
-            try{
-                nom = listePhoto[3].getPath();
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }                    
-            System.out.println(nom);
-            send(nom);
-        }
-        if(answer.equalsIgnoreCase("photo4")){
-            nom = new String();
-            try{
-                nom = listePhoto[4].getPath();
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }                    
-            System.out.println(nom);
-            send(nom);
-        }
-        if(answer.equalsIgnoreCase("photo5")){
-            nom = new String();
-            try{
-                nom = listePhoto[5].getPath();
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-            }                    
-            System.out.println(nom);
-            send(nom);
+        for(int i=0; i<longueurPhoto; i++){
+            if(answer.equalsIgnoreCase("photo"+i)){
+                nom = new String();
+                try{
+                    nom = listePhoto[i-1].getPath();
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }                    
+                System.out.println(nom);
+                send(nom);
+            }
         }
     }
 
@@ -235,4 +169,30 @@ public class Client implements Runnable{
         }
     }
 
+    public void sendByte(byte[] audio) {
+        try {
+            System.out.println("mandeh sendByte");
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+            writer.println(audio);
+            writer.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println("writer.println(audio)");
+        }
+    }
+
+    public byte[] loadAudio(File file) {
+        byte[] bytes = null;
+        try{
+           Path path = Paths.get(file.getAbsolutePath());
+           bytes = Files.readAllBytes(path);
+           System.out.println(bytes.length);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("loadAudio error");
+        }/*catch(ClassNotFoundException e){
+            System.out.println(e.getMessage());
+        }*/
+        return bytes;
+    }
 }

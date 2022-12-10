@@ -5,6 +5,9 @@ import javax.swing.*;
 import java.io.IOException;
 import java.lang.ClassNotFoundException;
 import java.net.UnknownHostException;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
 
 import client.*;
 import listener.*;
@@ -12,6 +15,9 @@ import listener.*;
 public class Fenetre extends JFrame{
     public Client client;
     public String msg;
+    public static InputStream MSGE = null;
+
+    public static String CMD = "LIST";
 
     public Fenetre() throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         setTitle("Fenetre");
@@ -44,4 +50,11 @@ public class Fenetre extends JFrame{
         msg = message;
         //System.out.println(msg);
     }
+
+    /*public void receive(InputStream play) {
+        if(play!=null)
+            msge = play;
+        else
+            System.out.println("null play");
+    }*/
 }

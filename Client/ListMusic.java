@@ -22,6 +22,7 @@ public class ListMusic extends JFrame{
     public Client client;
     public Fenetre fen;
     public JTextField entree;
+    public int totalAudio;
     public Function fonction;
 
     public ListMusic(Client cl, Fenetre f, String message) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
@@ -51,6 +52,7 @@ public class ListMusic extends JFrame{
 
         System.out.println(message);
         String[] messages = message.split(",");
+        totalAudio = messages.length;
         Boutton[] label = new Boutton[messages.length];
         for(int i=0; i<messages.length; i++){
             if(i>0){

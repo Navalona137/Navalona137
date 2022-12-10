@@ -19,6 +19,7 @@ public class ListPhoto extends JFrame{
     public Client client;
     public Fenetre fen;
     public JTextField entree;
+    public int totalPhoto;
 
     public ListPhoto(Client cl, Fenetre f, String message) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         this.client = cl;
@@ -46,6 +47,7 @@ public class ListPhoto extends JFrame{
         contenu.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         String[] messages = message.split(",");
+        totalPhoto = messages.length;
         Boutton[] label = new Boutton[messages.length];
         for(int i=0; i<messages.length; i++){
             if(i>0){
