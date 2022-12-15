@@ -17,6 +17,11 @@ import java.lang.ClassNotFoundException;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+
 
 public class Client implements Runnable{
 
@@ -136,12 +141,13 @@ public class Client implements Runnable{
                 nom = new String();
                 try{
                     nom = listeAudio[i-1].getAbsolutePath();
-                    byteAudio = loadAudio(listeAudio[i-1]);
+                    //byteAudio = loadAudio(listeAudio[i-1]);
                 }catch(Exception e){
                     System.out.println(e.getMessage());
                 }                    
                 System.out.println(nom);
-                sendByte(byteAudio);
+                sendMusic(listeAudio[i-1]);
+                //sendByte(byteAudio);
             }
         }
 
@@ -169,7 +175,16 @@ public class Client implements Runnable{
         }
     }
 
-    public void sendByte(byte[] audio) {
+    public void sendMusic(File file) throws FileNotFoundException, IOException{
+        Path path = Paths.get(file.getAbsolutePath());
+        byte[] data = Files.readAllBytes(path);
+        DataOutputStream dout=new DataOutputStream(socket.getOutputStream());
+        dout.write(data, 0,data.length);
+        dout.flush();
+        
+    }
+
+    /*public void sendByte(byte[] audio) {
         try {
             System.out.println("mandeh sendByte");
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -192,7 +207,7 @@ public class Client implements Runnable{
             System.out.println("loadAudio error");
         }/*catch(ClassNotFoundException e){
             System.out.println(e.getMessage());
-        }*/
+        }
         return bytes;
-    }
+    }*/
 }
