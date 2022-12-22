@@ -17,16 +17,14 @@ import boutton.*;
 
 public class ListPhoto extends JFrame{
     public Client client;
-    public Fenetre fen;
     public JTextField entree;
     public int totalPhoto;
 
-    public ListPhoto(Client cl, Fenetre f, String message) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
+    public ListPhoto(Client cl, String message) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         this.client = cl;
-        this.fen = f;
 
         setTitle("Fenetre");
-		setSize(800, 500);
+		setSize(900, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -59,7 +57,7 @@ public class ListPhoto extends JFrame{
         panel.add(contenu, BorderLayout.CENTER);
 
     //-------------------------------------------------------------------------------------------------------------------------------------------
-        ListenerPhoto listen = new ListenerPhoto(client, fen, this);
+        ListenerPhoto listen = new ListenerPhoto(client, this);
 
         JPanel bouttonPanel = new JPanel();
         bouttonPanel.setLayout(new BorderLayout());

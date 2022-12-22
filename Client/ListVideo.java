@@ -17,15 +17,13 @@ import boutton.*;
 
 public class ListVideo extends JFrame{
     public Client client;
-    public Fenetre fen;
     public JTextField entree;
 
-    public ListVideo(Client cl, Fenetre f, String message) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
+    public ListVideo(Client cl, String message) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         this.client = cl;
-        this.fen = f;
 
         setTitle("Fenetre");
-		setSize(800, 500);
+		setSize(900, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -57,7 +55,7 @@ public class ListVideo extends JFrame{
         panel.add(contenu, BorderLayout.CENTER);
 
     //-------------------------------------------------------------------------------------------------------------------------------------------
-        ListenerVideo listen = new ListenerVideo(client, fen, this);
+        ListenerVideo listen = new ListenerVideo(client, this);
 
         JPanel bouttonPanel = new JPanel();
         bouttonPanel.setLayout(new BorderLayout());

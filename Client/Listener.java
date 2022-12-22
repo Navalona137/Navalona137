@@ -26,25 +26,26 @@ public class Listener implements MouseListener{
 
         if(scr.getText() == "Music"){
             try{
-                Fenetre.CMD = "LIST";
+                Fenetre.CMD = "LIST_MUSIC";
+                System.out.println(Fenetre.CMD);
                 client.send("music");
-                ListMusic music = new ListMusic(client, fen, fen.msg);
+                
             }catch(Exception ex){
                 System.out.println(ex.getMessage());
             }
         }
         if(scr.getText() == "Photo"){
             try{
+                Fenetre.CMD = "LIST_PHOTO";
                 client.send("photo");
-                ListPhoto photo = new ListPhoto(client, fen, fen.msg);
             }catch(Exception ex){
                 System.out.println(ex.getMessage());
             }
         }
         if(scr.getText() == "Video"){
             try{
+                Fenetre.CMD = "LIST_VIDEO";
                 client.send("video");
-                ListVideo video = new ListVideo(client, fen, fen.msg);
             }catch(Exception ex){
                 System.out.println(ex.getMessage());
             }

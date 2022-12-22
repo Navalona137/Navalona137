@@ -8,12 +8,10 @@ import client.*;
 
 public class ListenerPhoto implements MouseListener{
     public Client client;
-    public Fenetre fen;
     public ListPhoto listP;
 
-    public ListenerPhoto(Client cl, Fenetre f, ListPhoto lp){
+    public ListenerPhoto(Client cl, ListPhoto lp){
         this.client = cl;
-        this.fen = f;
         this.listP = lp;
     }
 
@@ -31,65 +29,16 @@ public class ListenerPhoto implements MouseListener{
 
         if(scr.getText() == "Afficher"){
             System.out.println("affiche photo");
-            for(int i=0; i<listP.totalPhoto; i++){
+            for(int i=0; i<listP.totalPhoto+1; i++){
                 if(listP.entree.getText().equals("Photo numero : " + i)){ 
                     try{
-                        client.send("photo"+(i));
-                        Photo photo = new Photo(client, fen.msg);
+                        Fenetre.CMD = "PLAY_PHOTO";
+                        client.send("photo"+i);
                     }catch(Exception ex){
                         System.out.println(ex.getMessage());
                     }
                 }
             }
-
-            /*if(listP.entree.getText().equals("Photo numero : 1")){ 
-                try{
-                    client.send("photo0");
-                    Photo photo = new Photo(client, fen.msg);
-                }catch(Exception ex){
-                    System.out.println(ex.getMessage());
-                }
-            }
-            if(listP.entree.getText().equals("Photo numero : 2")){ 
-                try{
-                    client.send("photo1");
-                    Photo photo = new Photo(client, fen.msg);
-                }catch(Exception ex){
-                    System.out.println(ex.getMessage());
-                }
-            }
-            if(listP.entree.getText().equals("Photo numero : 3")){ 
-                try{
-                    client.send("photo2");
-                    Photo photo = new Photo(client, fen.msg);
-                }catch(Exception ex){
-                    System.out.println(ex.getMessage());
-                }
-            }
-            if(listP.entree.getText().equals("Photo numero : 4")){ 
-                try{
-                    client.send("photo3");
-                    Photo photo = new Photo(client, fen.msg);
-                }catch(Exception ex){
-                    System.out.println(ex.getMessage());
-                }
-            }
-            if(listP.entree.getText().equals("Photo numero : 5")){ 
-                try{
-                    client.send("photo4");
-                    Photo photo = new Photo(client, fen.msg);
-                }catch(Exception ex){
-                    System.out.println(ex.getMessage());
-                }
-            }
-            if(listP.entree.getText().equals("Photo numero : 6")){ 
-                try{
-                    client.send("photo5");
-                    Photo photo = new Photo(client, fen.msg);
-                }catch(Exception ex){
-                    System.out.println(ex.getMessage());
-                }
-            }*/
         }
     } 
 

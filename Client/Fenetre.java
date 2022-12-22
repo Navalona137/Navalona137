@@ -8,25 +8,35 @@ import java.net.UnknownHostException;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
+import javax.swing.border.EmptyBorder;
 
 import client.*;
 import listener.*;
 
 public class Fenetre extends JFrame{
     public Client client;
-    public String msg;
-    public static InputStream MSGE = null;
-
-    public static String CMD = "LIST";
+    public static String CMD = "";
 
     public Fenetre() throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         setTitle("Fenetre");
-		setSize(800, 500);
+		setSize(900, 600);
         setBackground(Color.GRAY);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(new EmptyBorder(5, 15, 5, 15));
+
+        JPanel titrePanel = new JPanel();
+        JLabel title = new JLabel("Bienvenue");
+        title.setFont(new Font("Arial", Font.BOLD, 25));
+        titrePanel.add(title);
+
+        JPanel bouttonPanel = new JPanel();
+        panel.add(titrePanel, BorderLayout.NORTH);
+        panel.add(bouttonPanel, BorderLayout.CENTER);
+
         JButton music = new JButton("Music");
         JButton photo = new JButton("Photo");
         JButton video  = new JButton("Video");
@@ -37,24 +47,13 @@ public class Fenetre extends JFrame{
         photo.addMouseListener(listen);
         video.addMouseListener(listen);
 
-        panel.add(music);
-        panel.add(photo);
-        panel.add(video);
+        bouttonPanel.add(music);
+        bouttonPanel.add(photo);
+        bouttonPanel.add(video);
+
+
 
         add(panel);
         setVisible(true);
     }
-
-    public void receive(String message) {
-        msg = new String();
-        msg = message;
-        //System.out.println(msg);
-    }
-
-    /*public void receive(InputStream play) {
-        if(play!=null)
-            msge = play;
-        else
-            System.out.println("null play");
-    }*/
 }

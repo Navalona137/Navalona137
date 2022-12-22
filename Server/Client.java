@@ -24,9 +24,7 @@ import java.io.DataOutputStream;
 
 
 public class Client implements Runnable{
-
     private final Socket socket;
-    private final int id;
 
     private String name;
 
@@ -49,11 +47,9 @@ public class Client implements Runnable{
 
     private String nom = new String();
 
-    private byte[] byteAudio;
-
-    public Client(Socket socket, int id)  {
+    public Client(Socket socket)  {
         this.socket = socket;
-        this.id = id;
+
 
         String pat = path.replace("\\", "/");
         String pathAudio = pat + "/assets/hira";
@@ -63,14 +59,17 @@ public class Client implements Runnable{
         myFileAudio = new File(pathAudio);
         listeAudio = myFileAudio.listFiles();
         longueurAudio = listeAudio.length;
+        System.out.println("File audio: " + longueurAudio);
 
         myFilePhoto = new File(pathPhoto);
         listePhoto = myFilePhoto.listFiles();
         longueurPhoto = listePhoto.length;
+        System.out.println("File photo: " + longueurPhoto);
 
         myFileVideo = new File(pathVideo);
         listeVideo = myFileVideo.listFiles();
         longueurVideo = listeVideo.length;
+        System.out.println("File video: " + longueurVideo);
     }
     
     public void setName(String name){
@@ -82,7 +81,7 @@ public class Client implements Runnable{
     }
 
     @Override
-    public void run() {
+    public void run(){
         while (true)  {
             try {
                 receive();
@@ -94,10 +93,10 @@ public class Client implements Runnable{
         }
     }
 
-    private void receive() throws IOException {
+    private void receive() throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String answer = reader.readLine(); 
-        System.out.println(answer);
+        System.out.println(answer + " izy");
 
         if(answer.equalsIgnoreCase("music")){
             music = new String();
@@ -108,7 +107,6 @@ public class Client implements Runnable{
                     System.out.println(e.getMessage());
                 }
             }
-            System.out.println(music);
             send(music);
         }
         if(answer.equalsIgnoreCase("photo")){
@@ -120,7 +118,6 @@ public class Client implements Runnable{
                     System.out.println(e.getMessage());
                 }
             }
-            System.out.println(photo);
             send(photo);
         }
         if(answer.equalsIgnoreCase("video")){
@@ -132,7 +129,6 @@ public class Client implements Runnable{
                     System.out.println(e.getMessage());
                 }
             }
-            System.out.println(video);
             send(video);
         }
 
@@ -140,14 +136,11 @@ public class Client implements Runnable{
             if(answer.equalsIgnoreCase("music"+i)){
                 nom = new String();
                 try{
-                    nom = listeAudio[i-1].getAbsolutePath();
-                    //byteAudio = loadAudio(listeAudio[i-1]);
+                    nom = listeAudio[i-1].getPath();
                 }catch(Exception e){
                     System.out.println(e.getMessage());
                 }                    
-                System.out.println(nom);
-                sendMusic(listeAudio[i-1]);
-                //sendByte(byteAudio);
+                sendObj(nom);
             }
         }
 
@@ -158,10 +151,21 @@ public class Client implements Runnable{
                     nom = listePhoto[i-1].getPath();
                 }catch(Exception e){
                     System.out.println(e.getMessage());
-                }                    
-                System.out.println(nom);
-                send(nom);
+                }           
+                sendObj(nom);
             }
+        }
+
+        if(answer.equalsIgnoreCase("stop")){
+            nom = new String();
+            for(int i=0; i<longueurAudio; i++){
+                try{
+                    nom = "stop";
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+            }
+            send(nom);
         }
     }
 
@@ -175,39 +179,20 @@ public class Client implements Runnable{
         }
     }
 
-    public void sendMusic(File file) throws FileNotFoundException, IOException{
-        Path path = Paths.get(file.getAbsolutePath());
-        byte[] data = Files.readAllBytes(path);
-        DataOutputStream dout=new DataOutputStream(socket.getOutputStream());
-        dout.write(data, 0,data.length);
-        dout.flush();
-        
-    }
-
-    /*public void sendByte(byte[] audio) {
-        try {
-            System.out.println("mandeh sendByte");
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-            writer.println(audio);
-            writer.flush();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            System.out.println("writer.println(audio)");
+    public void sendObj(String filename) throws FileNotFoundException, IOException{
+        File file = new File(filename);
+        byte[] data = new byte[(int)file.length()];
+        //System.out.println("len photo "+(int)file.length());
+        FileInputStream fis = new FileInputStream(file);
+  
+        DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
+        if((fis.read(data, 0, (int)file.length())) != -1){
+            try{
+                dout.write(data); 
+                dout.flush();
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
         }
     }
-
-    public byte[] loadAudio(File file) {
-        byte[] bytes = null;
-        try{
-           Path path = Paths.get(file.getAbsolutePath());
-           bytes = Files.readAllBytes(path);
-           System.out.println(bytes.length);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            System.out.println("loadAudio error");
-        }/*catch(ClassNotFoundException e){
-            System.out.println(e.getMessage());
-        }
-        return bytes;
-    }*/
 }

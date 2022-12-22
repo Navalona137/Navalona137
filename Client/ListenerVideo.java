@@ -8,12 +8,10 @@ import client.*;
 
 public class ListenerVideo implements MouseListener{
     public Client client;
-    public Fenetre fen;
     public ListVideo listV;
 
-    public ListenerVideo(Client cl, Fenetre f, ListVideo lv){
+    public ListenerVideo(Client cl, ListVideo lv){
         this.client = cl;
-        this.fen = f;
         this.listV = lv;
     }
 
@@ -29,18 +27,6 @@ public class ListenerVideo implements MouseListener{
             }
         }
 
-        if(scr.getText() == "Afficher"){
-            if(listV.entree.getText().equals("1")){ 
-                System.out.println("affiche video");
-                /*try{
-                    System.out.println("affiche photo");
-                    client.send("photo0");
-                    Photo photo = new Photo(client, fen.msg);
-                }catch(Exception ex){
-                    System.out.println(ex.getMessage());
-                }*/
-            }
-        }
     } 
 
     public void mouseEntered(MouseEvent e){

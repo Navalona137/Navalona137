@@ -20,17 +20,14 @@ import function.*;
 
 public class ListMusic extends JFrame{
     public Client client;
-    public Fenetre fen;
     public JTextField entree;
     public int totalAudio;
-    public Function fonction;
 
-    public ListMusic(Client cl, Fenetre f, String message) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
+    public ListMusic(Client cl, String message) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         this.client = cl;
-        this.fen = f;
 
         setTitle("Fenetre");
-		setSize(800, 500);
+		setSize(900, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -50,7 +47,6 @@ public class ListMusic extends JFrame{
         contenu.setLayout(new GridLayout(4, 4, 5, 5));
         contenu.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        System.out.println(message);
         String[] messages = message.split(",");
         totalAudio = messages.length;
         Boutton[] label = new Boutton[messages.length];
@@ -64,8 +60,7 @@ public class ListMusic extends JFrame{
         panel.add(contenu, BorderLayout.CENTER);
 
     //-------------------------------------------------------------------------------------------------------------------------------------------
-        fonction = new Function(client);
-        ListenerMusic listen = new ListenerMusic(client, fen, fonction, this);
+        ListenerMusic listen = new ListenerMusic(client, this);
 
         JPanel bouttonPanel = new JPanel();
         bouttonPanel.setLayout(new BorderLayout());
@@ -100,4 +95,5 @@ public class ListMusic extends JFrame{
         setVisible(true);
     }
 
+    
 }

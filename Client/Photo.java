@@ -10,11 +10,11 @@ import javax.swing.border.EmptyBorder;
 public class Photo extends JFrame{
     public Client client;
 
-    public Photo(Client cl, String message){
+    public Photo(Client cl, byte[] message){
         this.client = cl;
 
         setTitle("Fenetre");
-		setSize(800, 500);
+		setSize(900, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
